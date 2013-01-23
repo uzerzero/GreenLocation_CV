@@ -1,7 +1,11 @@
 package modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
 import modele.Utilisateur;
 
 /**
@@ -18,6 +22,13 @@ public class Employe extends Utilisateur implements Serializable {
 	private String fonction;
 	private String nom;
 	private String prenom;
+	
+	@OneToMany(mappedBy = "employe")
+	private final List<Reservation> reservations = new ArrayList<Reservation>();
+	
+	public List<Reservation> getReservations() {
+	    return reservations;
+	  }
 
 	public Employe(String fonction, String nom, String prenom) {
 		super();

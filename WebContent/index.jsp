@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1>Hello World!</h1>
-    <form name="ListVehicule" action="ListV" method="get">
+    <form action="./Vehicules" method="get">
     <input type="submit" name="Soumettre" value="Voir la liste des véhicules"/>
     </form>
   </body>

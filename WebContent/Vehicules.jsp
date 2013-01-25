@@ -9,11 +9,9 @@ import = "modele.Vehicule"
 </head>
 <body>
 <h1>Vehicules List</h1>
-<form action="etat.jsp" method="POST">
+<form action="./Reservation" method="get">
 <table>
 <tr><td><input type="hidden"  name="NumeroPage"  value="1"></td></tr>
-
-
 <%
 int i = 1;
 List<Vehicule> vehList = (List<Vehicule>)request.getAttribute("Vehicules");
@@ -28,18 +26,19 @@ if (vehList.size()!=0)
 		
 		<tr>
 		<td>
-		<input type="hidden" name="marque" value="<%= element.getMarque() %>"/>
-		<input type="hidden" name="modele" value="<%= element.getModele() %>"/>
+		<input type="hidden" name="marque" value="<%= element.getId() %>"/>
+	
 		</td>
 		<%
 		out.println("<td>" + element.getModele() +" </td>");
 		out.println("<td>" + element.getMarque() + " </td>");
 		out.println("<td>" + element.getCouleur() + "</td>");
 		out.println("<td>" + element.getDisponibilite() + "</td>");
+		
 		%>
 		<td><input type="submit" Value="Reserver" /></td>
 		<td>
-		<input type="submit" Value="Remplir le formulaire d'état"/>
+		<input type="submit" Value="Remplir le formulaire d'état" />
 		
 		</td>
 				</tr>

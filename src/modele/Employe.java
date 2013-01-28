@@ -15,7 +15,6 @@ import modele.Utilisateur;
 @Entity
 
 public class Employe extends Utilisateur implements Serializable {
-
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -25,6 +24,9 @@ public class Employe extends Utilisateur implements Serializable {
 	
 	@OneToMany(mappedBy = "employe")
 	private final List<Reservation> reservations = new ArrayList<Reservation>();
+	
+	@OneToMany(mappedBy = "employe")
+	private final List<Contrat> contrats = new ArrayList<Contrat>();
 	
 	public List<Reservation> getReservations() {
 	    return reservations;

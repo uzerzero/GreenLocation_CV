@@ -22,6 +22,9 @@ public class Reservation implements Serializable {
 	private Employe employe;
 	private Vehicule vehicule;
 
+	//@OneToOne(mappedBy="reservation", fetch = FetchType.LAZY)
+    //private Contrat contrat;
+	
 	private Date DateDebut;
 	
 	private Date DateFin;

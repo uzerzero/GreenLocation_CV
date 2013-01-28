@@ -8,7 +8,7 @@ import = "modele.*"
 <title>Reserver Vehicule</title>
 </head>
 <body>
-<form action="\Vehicules" Method="post">
+<form action="\Reservation" Method="post">
 	<label>Reservation d'un vehicule:</label>
    	<p>
 	   	<label>Marque: </label>

@@ -39,7 +39,7 @@ public class ReservationController extends HttpServlet {
     }
 
 	/**
-	 * doGet => ListReservations
+	 * doGet => Adds a reservation then Lists Reservations
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

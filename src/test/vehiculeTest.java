@@ -25,7 +25,7 @@ public class vehiculeTest {
 	    boolean creatNewEntries = (vehicules.size()==0);
 	    if(creatNewEntries){
 			assertTrue(vehicules.size()==0);
-			System.out.println("Vehicules: "+vehicules.size());
+			
 		    for(int i=0;i<15;i++){		   
 			    Vehicule vehicule = new Vehicule();
 			    vehicule.setImmatriculation("CAT31_"+i);
@@ -36,8 +36,10 @@ public class vehiculeTest {
 			    vehicule.setCategorie(categorie);
 			    cb.add(vehicule);
 			    Thread.sleep(1000);
-		    }				   
+		    }	
+		    
 	    }
+	    System.out.println("Vehicules: "+vehicules.size());
 	}
 
 	@Test

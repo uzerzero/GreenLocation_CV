@@ -2,6 +2,9 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modele.Reservation;;
+import modele.*;
 
 /**
  * Servlet implementation class ListeReservationController
@@ -25,7 +28,7 @@ import modele.Reservation;;
 public class ReservationController extends HttpServlet {
 	private static final String PERSISTENCE_UNIT_NAME = "LocationVoitureDB";
 	private static final long serialVersionUID = 1L;
-	private static EntityManagerFactory factory;
+	private static ConnectionDB db = new ConnectionDB(PERSISTENCE_UNIT_NAME);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,51 +39,66 @@ public class ReservationController extends HttpServlet {
     }
 
 	/**
+	 * doGet => ListReservations
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/plein");
-		PrintWriter out=response.getWriter();
-		out.println("Param of the doGet: <br>");
-		Enumeration<String> e =request.getParameterNames();
-		while(e.hasMoreElements()){
-			String name = (String)e.nextElement();
-			out.println(name+" : "+request.getParameter(name)+"<br>");
-		}		
-		/*
-	    Query q = em.createQuery("select v from Reservation v");
-	    List<Reservation> reservationList = q.getResultList();
-	   
-	    out.println("No de reservation dans le DB: " + reservationList.size());
-	    request.setAttribute("Reservations", reservationList);
+		String vehiculeID = request.getParameter("vehicule_id");
+		String clientID = request.getParameter("client_id");
+		String employeID = request.getParameter("employe_id");
+		String strDateDebut = request.getParameter("dateDebut");
+		String strDateFin = request.getParameter("dateFin");
 		
-		RequestDispatcher dispatcher = getServletContext().
-		getRequestDispatcher("/Reservation.jsp"); 
-		dispatcher.forward(request, response);*/
+		Vehicule vehicule = (Vehicule)db.getByID("Vehicule", "id", vehiculeID);	
+		Client client = (Client)db.getByID("Client", "id", clientID);
+		Employe employe = (Employe)db.getByID("Employe", "id", employeID);
+	     
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy"); 
+	    try {
+			Date dateDebut = dateFormat.parse(strDateDebut);
+			Date dateFin = dateFormat.parse(strDateFin);
+			
+			Reservation res = new Reservation();
+			res.setClient(client);
+			res.setEmploye(employe);
+			res.setVehicule(vehicule);
+			res.setDateDebut(dateDebut);
+			res.setDateFin(dateFin);
+			db.add(res);
+		} 
+	    catch (ParseException e) {			
+			e.printStackTrace();
+		}
+		
+		List<Reservation> myReservations = db.getAll("Reservation");
+		
+		request.setAttribute("Reservations", myReservations);
+		//Dispatch to jsp
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listeReservation.jsp"); 
+		dispatcher.forward(request, response);
 	  }
 
 	/**
+	 * doPost => takes vehicule, sends client and employee info to jsp
+	 * Here we want to get the vehicule object, the list of employees and the client
+	 * to send to the reserveVehicule.jsp
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		/*
-		String utilisateurStr=request.getParameter("UtilisateurTxt");
-		String modeleStr=request.getParameter("ModeleTxt");
-		String marqueStr=request.getParameter("MarqueTxt");
-		String dateStr=request.getParameter("DateTxt");
-		PrintWriter out = response.getWriter();
-		
-		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	    EntityManager em = factory.createEntityManager();
-	   // Query q = em.createQuery("select v from Reservation v where lower(v.loginUtilisateur) like lower('%"+utilisateurStr+"%') and lower(v.modeleVehicule) like lower('%"+modeleStr+"%') and lower(v.marqueVehicule) like lower('%"+marqueStr+"%') and (v.dateDebut like ('%"+dateStr+"%') or v.dateFin like ('%"+dateStr+"%'))");
-	    List<Reservation> reservationList = q.getResultList();
-	    
-	    request.setAttribute("Reservation", reservationList);
-		
+		//Vehicule
+		String id = request.getParameter("vehicule_id");
+		Vehicule v = (Vehicule)db.getByID("Vehicule", "id", id);	
+		request.setAttribute("Vehicule", v);				   
+		//List of employees
+		List<Employe> employes = db.getAll("Employe");
+		request.setAttribute("Employes", employes);
+		//List of Clients - to be changed to session object
+		List<Client> clients= db.getAll("Client");
+		request.setAttribute("Clients", clients);		
+		//Dispatch to jsp
 		RequestDispatcher dispatcher = getServletContext().
-		getRequestDispatcher("/listeReservation.jsp"); 
-		dispatcher.forward(request, response);*/
+		getRequestDispatcher("/reserverVehicule.jsp"); 
+		dispatcher.forward(request, response);		
 	}
 
 

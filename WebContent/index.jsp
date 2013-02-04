@@ -10,7 +10,7 @@
   <body>
     <h1>Hello World!</h1>
     <form action="./Vehicules" method="get">
-    <input type="submit" name="Soumettre" value="Voir la liste des véhicules"/>
+    <input type="submit"/>
     </form>
   </body>
 </html> 

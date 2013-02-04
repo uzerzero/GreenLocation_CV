@@ -18,15 +18,15 @@ public class ConnectionDB {
 		em = factory.createEntityManager();
 	}
 	 
-	public void add(Vehicule v) {
+	public void add(Object o) {
 		beginTransaction();
-		em.persist(v);
+		em.persist(o);
 		commitTransaction();
 	}
 	 
-	public void del(Vehicule v) {
+	public void del(Object o) {
 		beginTransaction();
-		em.remove(v);
+		em.remove(o);
 		commitTransaction();
 	}
 	public void add(Categorie c) {
@@ -40,6 +40,11 @@ public class ConnectionDB {
 		em.remove(c);
 		commitTransaction();
 	}
+	public Object getByID(String table, String champs, String value){
+		String sql = "SELECT o FROM " + table + " o WHERE o." + champs + " = " + value;	
+		Query query = em.createQuery(sql);	 
+		return query.getSingleResult();
+	}
 	 
 	@SuppressWarnings("rawtypes")
 	public List getAll(String table) {
@@ -49,7 +54,7 @@ public class ConnectionDB {
 	 
 	@SuppressWarnings("rawtypes")
 		public List get(String table, String champs, String value) {
-		String sql = "SELECT o FROM " + table + " o WHERE " + champs + " = " + value;	 
+		String sql = "SELECT o FROM " + table + " o WHERE  o." + champs + " = " + value;	 
 		return get(sql);
 	}
 	 

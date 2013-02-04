@@ -16,12 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import modele.ConnectionDB;
 import modele.Vehicule;
 
 public class VehiculeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PERSISTENCE_UNIT_NAME = "LocationVoitureDB";
-	private static EntityManagerFactory factory;
+	private static ConnectionDB db = new ConnectionDB(PERSISTENCE_UNIT_NAME);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -35,34 +36,20 @@ public class VehiculeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-				
-		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	    EntityManager em = factory.createEntityManager();
-	    Query q = em.createQuery("select v from Vehicule v");
-	    List<Vehicule> vehiculeList = q.getResultList();
-	    
-	    /*for (Vehicule vehicule : vehiculeList) {
-	      out.println("Vehicule: "+vehicule.getMarque()+" : "+vehicule.getModele()+" : " +vehicule.getCouleur());
-	    }*/
-	    
+		PrintWriter out = response.getWriter();		
+	    List<Vehicule> vehiculeList = db.getAll("Vehicule");		    
 	    //viewVehiculeByID();
 	    out.println("No de vehicule dans le DB: " + vehiculeList.size());
-	    request.setAttribute("Vehicules", vehiculeList);
-		
+	    request.setAttribute("Vehicules", vehiculeList);		
 		RequestDispatcher dispatcher = getServletContext().
 		getRequestDispatcher("/Vehicules.jsp"); 
 		dispatcher.forward(request, response);
-	  }
-	
+	}	
 	
 	public static void viewVehiculeByID(){
-		  factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-		  EntityManager em = factory.createEntityManager();		  
-		  Query q = em.createQuery( "SELECT v FROM Vehicule v WHERE v.id = '3'");
-		  Vehicule v = (Vehicule)q.getSingleResult();		 
-		  System.out.println("Vehicule: " + v.getMarque()+"</t> : "+v.getModele()+"</t> : "+v.getCouleur());
-		  
+		List<Vehicule> vehicule = db.get("Vehicule", "ID", "1");		  
+		Vehicule v = vehicule.get(0);	 
+		System.out.println("Vehicule: " + v.getMarque()+"</t> : "+v.getModele()+"</t> : "+v.getCouleur());		  
 	  }
 
 	/**
@@ -74,17 +61,16 @@ public class VehiculeController extends HttpServlet {
 		String marqueStr=request.getParameter("MarqueTxt");
 		String prixStr=request.getParameter("PrixTxt");
 		PrintWriter out = response.getWriter();
-		try { 
+		try
+		{ 
 			int i = Integer.parseInt(prixStr); 
-			} 
-			catch (Exception e) { 
-			prixStr="999999"; 
-			}
-		
-		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	    EntityManager em = factory.createEntityManager();
-	    Query q = em.createQuery("select v from Vehicule v where lower(v.modele) like lower('%"+modeleStr+"%') and lower(v.marque) like lower('%"+marqueStr+"%') and v.prix<="+prixStr);
-	    List<Vehicule> vehiculeList = q.getResultList();
+		} 
+		catch (Exception e) { 
+		prixStr="999999"; 
+		}
+			    
+	    String sql = "select v from Vehicule v where lower(v.modele) like lower('%"+modeleStr+"%') and lower(v.marque) like lower('%"+marqueStr+"%') and v.prix<="+prixStr;
+	    List<Vehicule> vehiculeList = db.get(sql);
 	    
 	    /*for (Vehicule vehicule : vehiculeList) {
 	      out.println("Vehicule: "+vehicule.getMarque()+"</t> : "+vehicule.getModele()+"</t> : " +vehicule.getCouleur());

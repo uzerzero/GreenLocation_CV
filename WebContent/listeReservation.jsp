@@ -9,53 +9,40 @@ import = "modele.*"
 </head>
 <body>
 <h1>Reservations List</h1>
-<form name="reservationSearch" action="SearchR" method="post">
-<label>Utilisateur :</label>
-<input type="text" name="UtilisateurTxt" width="50">
-<label>Marque :</label>
-<input type="text" name="MarqueTxt" width="50">
-<label>Modèle :</label>
-<input type="text" name="ModeleTxt" width="50"/>
-<label>Date :</label>
-<input type="text" name="DateTxt" width="50">
-<input type="submit" name="SearchR" value="Rechercher"/></form>
-
-
-<table>
-
+<form name="reservationSearch" action="index" method="post">
+<table> 
 <%
-
-List<Reservation> reservList = (List)request.getAttribute("Reservations");
-
-
-out.println("<tr>");
-out.println("<td>Utilisateur</td>");
-out.println("<td>Id Véhicule</td>");
-out.println("<td>Marque</td>");
-out.println("<td>Modèle</td>");
-out.println("<td>Date Debut</td>");
-out.println("<td>Date Fin</td>");
-out.println("</tr>");
-for (Iterator iter = reservList.iterator(); iter.hasNext();) {
-Reservation element = (Reservation) iter.next();
-out.println("<tr>");
-out.println("<td>" + element.getId() + "</td>");
-//out.println("<td>" + element.getCategorie() + "</td>");
-out.println("<td>" + element.getClass() + "</td>");
-out.println("<td>" + element.getDateDebut() + "</td>");
-out.println("<td>" + element.getDateFin() + "</td>");
-Vehicule vehicule = element.getVehicule();
-out.println("<td>" + vehicule.getMarque() + "</td>");
-out.println("<td>" + vehicule.getModele() + "</td>");
-%>
-		</tr>
-
-<%
-
+List<Reservation> resList = (List<Reservation>)request.getAttribute("Reservations");
+if (resList.size()!=0)
+{
+	for (Iterator iter = resList.iterator(); iter.hasNext();) {
+		Reservation element = (Reservation) iter.next();	
+		%>	
+		<tr>
+			<td>
+			<input type="hidden" name="vehicule_id" value="<%= element.getId() %>"/>	
+			</td>
+			<%
+			out.println("<td>" + element.getClient().getLogin() +" </td>");
+			out.println("<td>" + element.getDateDebut() + " </td>");
+			out.println("<td>" + element.getDateFin() + "</td>");
+			out.println("<td>" + element.getVehicule().getModele() + "</td>");
+			out.println("<td>" + element.getEmploye().getNom() + "</td>");
+			%>
+			
+		</tr>		
+		<%
+	}
+}
+else
+{
+	out.println("No reservations found");
 }
 %>
 
-</table>
 
+</table>
+<input type="submit" name="Back to vehicules/Details" />
+</form>
 </body>
 </html>

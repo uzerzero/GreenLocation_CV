@@ -11,6 +11,17 @@
 	</entity>
 
 	<entity>
+		<entity-name>modele.Client</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>128</entity-height>
+		<entity-X-Coordinate>484</entity-X-Coordinate>
+		<entity-Y-Coordinate>38</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
 		<entity-name>modele.Employe</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>168</entity-height>
@@ -22,11 +33,11 @@
 	</entity>
 
 	<entity>
-		<entity-name>modele.Client</entity-name>
+		<entity-name>modele.Contrat</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>128</entity-height>
-		<entity-X-Coordinate>484</entity-X-Coordinate>
-		<entity-Y-Coordinate>38</entity-Y-Coordinate>
+		<entity-height>206</entity-height>
+		<entity-X-Coordinate>618</entity-X-Coordinate>
+		<entity-Y-Coordinate>379</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -44,17 +55,6 @@
 	</entity>
 
 	<entity>
-		<entity-name>modele.Reservation</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>266</entity-height>
-		<entity-X-Coordinate>330</entity-X-Coordinate>
-		<entity-Y-Coordinate>250</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
 		<entity-name>modele.Vehicule</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>266</entity-height>
@@ -66,11 +66,11 @@
 	</entity>
 
 	<entity>
-		<entity-name>modele.Contrat</entity-name>
+		<entity-name>modele.Reservation</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>168</entity-height>
-		<entity-X-Coordinate>618</entity-X-Coordinate>
-		<entity-Y-Coordinate>379</entity-Y-Coordinate>
+		<entity-height>266</entity-height>
+		<entity-X-Coordinate>330</entity-X-Coordinate>
+		<entity-Y-Coordinate>250</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>

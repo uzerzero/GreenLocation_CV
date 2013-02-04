@@ -1,7 +1,7 @@
 package modele;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -21,12 +21,11 @@ public class Reservation implements Serializable {
 	private Client client;
 	private Employe employe;
 	private Vehicule vehicule;
-
-	//@OneToOne(mappedBy="reservation", fetch = FetchType.LAZY)
-    //private Contrat contrat;
 	
+	@Temporal(TemporalType.DATE)
 	private Date DateDebut;
 	
+	@Temporal(TemporalType.DATE)
 	private Date DateFin;
 	
 	public long getId() {
@@ -59,8 +58,8 @@ public class Reservation implements Serializable {
 	public Date getDateDebut() {
 		return DateDebut;
 	}
-	public void setDateDebut(Date dateDebut) {
-		DateDebut = dateDebut;
+	public void setDateDebut(Date debut) {
+		DateDebut = debut;
 	}
 	public Date getDateFin() {
 		return DateFin;

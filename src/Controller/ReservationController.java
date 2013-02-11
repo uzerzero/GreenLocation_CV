@@ -39,7 +39,7 @@ public class ReservationController extends HttpServlet {
     }
 
 	/**
-	 * doGet => Adds a reservation then Lists Reservations
+	 * doGet => Adds a reservation then Lists Reservations with note of confirmation
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,25 +52,30 @@ public class ReservationController extends HttpServlet {
 		Vehicule vehicule = (Vehicule)db.getByID("Vehicule", "id", vehiculeID);	
 		Client client = (Client)db.getByID("Client", "id", clientID);
 		Employe employe = (Employe)db.getByID("Employe", "id", employeID);
+		Categorie categorie = vehicule.getCategorie();
+		int prix = categorie.getPrix();
 	     
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy"); 
 	    try {
 			Date dateDebut = dateFormat.parse(strDateDebut);
 			Date dateFin = dateFormat.parse(strDateFin);
-			
+			long interval = dateFin.getTime() - dateDebut.getTime();
+			request.setAttribute("interval", interval);
 			Reservation res = new Reservation();
 			res.setClient(client);
 			res.setEmploye(employe);
 			res.setVehicule(vehicule);
 			res.setDateDebut(dateDebut);
 			res.setDateFin(dateFin);
-			db.add(res);
+			db.add(res);			
+			vehicule.setDisponibilite("reserver");
+			
 		} 
 	    catch (ParseException e) {			
 			e.printStackTrace();
 		}
 		
-		List<Reservation> myReservations = db.getAll("Reservation");
+		List<Reservation> myReservations = db.getAll("Reservation");	
 		
 		request.setAttribute("Reservations", myReservations);
 		//Dispatch to jsp

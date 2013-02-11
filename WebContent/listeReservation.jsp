@@ -8,11 +8,15 @@ import = "modele.*"
 <title>Reservation</title>
 </head>
 <body>
-<h1>Reservations List</h1>
+<h1>Reservations Confirmation</h1>
+
+Thank you for your reservation(s):
+
 <form name="reservationSearch" action="index" method="post">
 <table> 
 <%
 List<Reservation> resList = (List<Reservation>)request.getAttribute("Reservations");
+long interval = (long)request.getAttribute("interval");
 if (resList.size()!=0)
 {
 	for (Iterator iter = resList.iterator(); iter.hasNext();) {
@@ -28,6 +32,7 @@ if (resList.size()!=0)
 			out.println("<td>" + element.getDateFin() + "</td>");
 			out.println("<td>" + element.getVehicule().getModele() + "</td>");
 			out.println("<td>" + element.getEmploye().getNom() + "</td>");
+			out.println("<td>" + interval + "</td>");
 			%>
 			
 		</tr>		

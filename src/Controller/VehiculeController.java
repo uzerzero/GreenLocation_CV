@@ -37,9 +37,11 @@ public class VehiculeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();		
-	    List<Vehicule> vehiculeList = db.getAll("Vehicule");		    
+		String sql = "select v from Vehicule v where v.disponibilite = 'dispo'";
+		List<Vehicule> vehiculeList = db.get(sql);
+	    //List<Vehicule> vehiculeList = db.getAll("Vehicule");		    
 	    //viewVehiculeByID();
-	    out.println("No de vehicule dans le DB: " + vehiculeList.size());
+	    out.println("No de Vehicule dans le DB: " + vehiculeList.size());
 	    request.setAttribute("Vehicules", vehiculeList);		
 		RequestDispatcher dispatcher = getServletContext().
 		getRequestDispatcher("/Vehicules.jsp"); 

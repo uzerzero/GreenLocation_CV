@@ -8,7 +8,7 @@ import = "modele.Vehicule"
 <title>Vehicules</title>
 </head>
 <body>
-<h1>Vehicules List</h1>
+<h1>Liste de vehicules</h1>
 <form action="./Reservation" method="post">
 <table>
 <tr><td><input type="hidden"  name="NumeroPage"  value="1"></td></tr>
@@ -23,31 +23,28 @@ if (vehList.size()!=0)
 			Vehicule element = (Vehicule) iter.next();
 			%>
 			<tr>
-			<td>
-			<input type="hidden" name="vehicule_id" value="<%= element.getId() %>"/>	
+			<td>			
+			<input type="hidden" name="vehicule_id" value="<%= element.getId() %>"/> 
 			</td>
 			<%
 			out.println("<td>" + element.getModele() +" </td>");
 			out.println("<td>" + element.getMarque() + " </td>");
 			out.println("<td>" + element.getCouleur() + "</td>");
-			out.println("<td>" + element.getDisponibilite() + "</td>");
+			out.println("<td>" + element.getDisponibilite() + "</td>");			
 			%>
-			<td><input type="submit" Value="Reserver" /></td>
-			<!-- <td>
-			<input type="submit" Value="Remplir le formulaire d'état" />		
-			</td> -->
-					</tr>
-			
+			<td><input type="submit" Value="Reserver"  /></td>
+			</tr>			
 			<%
 		}
 	}
 else
 	{
-		System.out.println("Records no found");
+		out.println("No records found");
 	}
 %>
 
 </table>
 </form>
+
 </body>
 </html>
